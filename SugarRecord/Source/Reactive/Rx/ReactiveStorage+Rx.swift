@@ -3,8 +3,8 @@ import RxSwift
 
 public extension Storage {
 
-    func rx_operation<T>(op: (context: Context, save: () -> Void) throws -> T) -> RxSwift.Observable<T> {
-        return RxSwift.Observable.create { (observer) -> RxSwift.Disposable in
+    func rx_operation<T>(op: (context: Context, save: () -> Void) throws -> T) -> Observable<T> {
+        return Observable.create { (observer) -> Disposable in
             do {
                 let returnedObject = try self.operation { (context, saver) throws -> T in
                     try op(context: context, save: { () -> Void in
@@ -22,7 +22,7 @@ public extension Storage {
         }
     }
     
-    func rx_operation<T>(op: (context: Context) throws -> T) -> RxSwift.Observable<T> {
+    func rx_operation<T>(op: (context: Context) throws -> T) -> Observable<T> {
         return rx_operation { (context, save) in
             
             let returnedObject = try op(context: context)
@@ -32,8 +32,8 @@ public extension Storage {
         }
     }
     
-    func rx_backgroundOperation<T>(op: (context: Context, save: () -> Void) throws -> T) -> RxSwift.Observable<T> {
-        return RxSwift.Observable.create { (observer) -> RxSwift.Disposable in
+    func rx_backgroundOperation<T>(op: (context: Context, save: () -> Void) throws -> T) -> Observable<T> {
+        return Observable.create { (observer) -> Disposable in
             do {
                 let returnedObject = try self.operation { (context, saver) throws -> T in
                     try op(context: context, save: { () -> Void in
@@ -52,7 +52,7 @@ public extension Storage {
         }
     }
     
-    func rx_backgroundOperation<T>(op: (context: Context) throws -> T) -> RxSwift.Observable<T> {
+    func rx_backgroundOperation<T>(op: (context: Context) throws -> T) -> Observable<T> {
         return rx_backgroundOperation { (context, save) throws in
             
             let returnedObject = try op(context: context)
